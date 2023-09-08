@@ -25,6 +25,7 @@ public class RoleController {
   @Autowired
   private RoleRepository theRoleRepository;
 
+  @ResponseStatus(HttpStatus.FOUND)
   @GetMapping("")
   public List<Role> index() {
     return this.theRoleRepository.findAll();
@@ -36,12 +37,14 @@ public class RoleController {
     return this.theRoleRepository.save(newRole);
   }
 
+  @ResponseStatus(HttpStatus.FOUND)
   @GetMapping("{id}")
   public Role show(@PathVariable String id) {
     Role theRole = this.theRoleRepository.findById(id).orElse(null);
     return theRole;
   }
 
+  @ResponseStatus(HttpStatus.OK)
   @PutMapping("{id}")
   public Role udpate(@PathVariable String id, @RequestBody Role theNewRole) {
     Role theActualRole = this.theRoleRepository.findById(id).orElse(null);
