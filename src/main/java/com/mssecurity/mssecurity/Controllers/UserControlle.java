@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mssecurity.mssecurity.Models.*;
 import com.mssecurity.mssecurity.Repositories.*;
+import com.mssecurity.mssecurity.Services.EncryptionService;
 
 /**
  * UserControlle
@@ -30,24 +31,30 @@ public class UserControlle {
   private UserRepository userRepository;
   @Autowired
   private RoleRepository roleRepository;
+  @Autowired
+  private EncryptionService encryptionService;
 
+  @ResponseStatus(HttpStatus.OK)
   @GetMapping("")
   public List<User> index() {
     return this.userRepository.findAll();
   }
 
   @ResponseStatus(HttpStatus.CREATED)
-  @PostMapping("")
-  public User store(@RequestBody User newUser) {
-    return this.userRepository.save(newUser);
+  @PostMapping
+  public User store(@RequestBody User newUSer) {
+    newUSer.setPassword(encryptionService.convertirSHA256(newUSer.getPassword()));
+    return this.userRepository.save(newUSer);
   }
 
+  @ResponseStatus(HttpStatus.OK)
   @GetMapping("{id}")
   public User show(@PathVariable String id) {
     User user = this.userRepository.findById(id).orElse(null);
     return user;
   }
 
+  @ResponseStatus(HttpStatus.OK)
   @PutMapping("{id}")
   public User update(@PathVariable String id, @RequestBody User newUser) {
     User current = this.userRepository
@@ -75,6 +82,7 @@ public class UserControlle {
     }
   }
 
+  @ResponseStatus(HttpStatus.OK)
   @PutMapping("{user_id}/role/{role_id}")
   public User match(@PathVariable String user_id, @PathVariable String role_id) {
     User current = this.userRepository.findById(user_id).orElse(null);
@@ -87,8 +95,9 @@ public class UserControlle {
     }
   }
 
-  @PutMapping("{user_id}/role/")
-  public User match(@PathVariable String user_id) {
+  @ResponseStatus(HttpStatus.OK)
+  @PutMapping("{user_id}/role")
+  public User dismatch(@PathVariable String user_id) {
     User current = this.userRepository.findById(user_id).orElse(null);
     if (current != null) {
       current.setRole(null);

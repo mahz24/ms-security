@@ -6,10 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 
-/**
- * User
- */
-
 @Data
 @Document()
 public class User {
@@ -48,7 +44,7 @@ public class User {
     this.email = email;
   }
 
-  public void setPasswoed(String password) {
+  public void setPassword(String password) {
     this.password = password;
   }
 

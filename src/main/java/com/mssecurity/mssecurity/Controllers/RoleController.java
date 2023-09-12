@@ -25,7 +25,7 @@ public class RoleController {
   @Autowired
   private RoleRepository theRoleRepository;
 
-  @ResponseStatus(HttpStatus.FOUND)
+  @ResponseStatus(HttpStatus.OK)
   @GetMapping("")
   public List<Role> index() {
     return this.theRoleRepository.findAll();
@@ -37,7 +37,7 @@ public class RoleController {
     return this.theRoleRepository.save(newRole);
   }
 
-  @ResponseStatus(HttpStatus.FOUND)
+  @ResponseStatus(HttpStatus.OK)
   @GetMapping("{id}")
   public Role show(@PathVariable String id) {
     Role theRole = this.theRoleRepository.findById(id).orElse(null);
