@@ -31,7 +31,7 @@ public class RolePermissionController {
   private RolePermissionRepository rolePermissionRepository;
 
   @Autowired
-  RoleRepository RoleRepository;
+  RoleRepository roleRPfepository;
 
   @Autowired
   PermissionRepository permissionRepository;
@@ -45,7 +45,7 @@ public class RolePermissionController {
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping("/role/{role_id}/permission/{permission_id}")
   public RolePermission store(@PathVariable String role_id, @PathVariable String permission_id) {
-    Role role = this.RoleRepository.findById(role_id).orElse(null);
+    Role role = this.roleRPfepository.findById(role_id).orElse(null);
     Permission permission = this.permissionRepository.findById(permission_id).orElse(null);
     if (role != null && permission != null) {
       RolePermission created = new RolePermission(role, permission);
@@ -67,7 +67,7 @@ public class RolePermissionController {
   public RolePermission udpate(@PathVariable String id, @PathVariable String role_id,
       @PathVariable String permission_id) {
     RolePermission current = this.rolePermissionRepository.findById(id).orElse(null);
-    Role role = this.RoleRepository.findById(role_id).orElse(null);
+    Role role = this.roleRPfepository.findById(role_id).orElse(null);
     Permission permission = this.permissionRepository.findById(permission_id).orElse(null);
     if (current != null && role != null && permission != null) {
       current.setPermission(permission);

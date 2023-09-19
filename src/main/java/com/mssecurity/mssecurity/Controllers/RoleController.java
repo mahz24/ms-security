@@ -23,35 +23,35 @@ import com.mssecurity.mssecurity.Repositories.RoleRepository;
 @RequestMapping("/roles")
 public class RoleController {
   @Autowired
-  private RoleRepository theRoleRepository;
+  private RoleRepository roleRepository;
 
   @ResponseStatus(HttpStatus.OK)
   @GetMapping("")
   public List<Role> index() {
-    return this.theRoleRepository.findAll();
+    return this.roleRepository.findAll();
   }
 
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping
   public Role store(@RequestBody Role newRole) {
-    return this.theRoleRepository.save(newRole);
+    return this.roleRepository.save(newRole);
   }
 
   @ResponseStatus(HttpStatus.OK)
   @GetMapping("{id}")
   public Role show(@PathVariable String id) {
-    Role theRole = this.theRoleRepository.findById(id).orElse(null);
+    Role theRole = this.roleRepository.findById(id).orElse(null);
     return theRole;
   }
 
   @ResponseStatus(HttpStatus.OK)
   @PutMapping("{id}")
   public Role udpate(@PathVariable String id, @RequestBody Role theNewRole) {
-    Role theActualRole = this.theRoleRepository.findById(id).orElse(null);
+    Role theActualRole = this.roleRepository.findById(id).orElse(null);
     if (theActualRole != null) {
       theActualRole.setName(theNewRole.getName());
       theActualRole.setDescription(theNewRole.getDescription());
-      return this.theRoleRepository.save(theActualRole);
+      return this.roleRepository.save(theActualRole);
     } else {
       return null;
     }
@@ -60,9 +60,9 @@ public class RoleController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("{id}")
   public void destroy(@PathVariable String id) {
-    Role theRole = this.theRoleRepository.findById(id).orElse(null);
+    Role theRole = this.roleRepository.findById(id).orElse(null);
     if (theRole != null) {
-      this.theRoleRepository.delete(theRole);
+      this.roleRepository.delete(theRole);
     }
   }
 }
