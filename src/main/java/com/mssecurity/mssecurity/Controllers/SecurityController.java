@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,19 +40,5 @@ public class SecurityController {
       response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
     return token;
-  }
-
-  @PutMapping("/forgot-password")
-  public User forgotPassword(@RequestBody User theUser, final HttpServletResponse response) throws IOException {
-    User actualUser = this.theUserRepository.getUserByEmail(theUser.getEmail());
-
-    if (actualUser != null
-        &&
-        actualUser.getPassword().equals(EncryptionService.convertirSHA256(theUser.getPassword()))) {
-      actualUser.setPassword(EncryptionService.convertirSHA256(theUser.getPassword()));
-      return this.theUserRepository.save(actualUser);
-    } else {
-      return null;
-    }
   }
 }
